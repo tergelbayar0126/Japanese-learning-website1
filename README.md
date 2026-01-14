@@ -1,22 +1,26 @@
-# Japanese Learning Website
+Japanese Learning Website
+A comprehensive web-based platform designed to facilitate Japanese language learning through interactive modules including quizzes, flashcards, and multimedia sections.
 
-A beginner-focused Japanese learning website developed as a school project.
+🚀 Overview
+This project was born out of a personal desire to bridge the gap between complex language concepts and intuitive user interfaces. As a student developer, I focused on creating a "human-centric" design that makes the learning process accessible and engaging.
 
-## Features
-- Quizzes
-- Educational mini-games
-- Flashcards
-- Writing practice section
-- Listening exercises
+🛠️ Features
+Interactive Quizzes: Testing Hiragana, Katakana, and Kanji proficiency.
 
-## Tech stack
-- HTML, CSS, JavaScript
+Memory Flashcards: A systematic approach to vocabulary retention.
 
-## About the project
-Built from scratch for school. Used AI as a learning aid to overcome complex issues, which inspired me to pursue Computer Science.
+Multimedia Integration: Dedicated sections for listening and writing practice.
 
-## How to run
-Open index.html in a browser
+Mini-Games: Gamified learning to increase user retention and engagement.
 
-## Author
-Tergel Bayar
+💻 Technical Highlights
+Architecture: Designed the site logic to handle dynamic content for quizzes and games.
+
+Problem Solving: Implemented custom debugging to resolve issues with audio synchronization and state management in flashcards.
+
+Independent Learning: Used documentation and logic-based research to build the system's core functionality.
+
+📈 Future Goals
+I plan to expand this project by implementing a backend database for user progress tracking and integrating an AI-based speech recognition API to help users with pronunciation.
+
+Developed by Tergel Batbayar as part of a high school capstone project.
