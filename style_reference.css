@@ -1,0 +1,356 @@
+:root {
+  --accent: #2b6cb0;
+  --accent-light: #4a8fd8;
+  --muted: #f6f7f9;
+  --border: #e2e8f0;
+  --border-light: #e6eef6;
+  --text-primary: #222;
+  --text-secondary: #2d3748;
+  --bg-white: #fff;
+  --bg-hover: #f7fafc;
+  --guide-primary: #dfe7ef;
+  --guide-secondary: #e9f0f6;
+  --stroke-dark: #222;
+  --feedback-info: rgba(44, 130, 201, 0.95);
+
+  /* Spacing */
+  --spacing-xs: 6px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 18px;
+
+  /* Sizing */
+  --box-size: 340px;
+  --box-size-sm: 260px;
+  --char-btn-size: 40px;
+  --border-radius: 6px;
+
+  /* Stroke */
+  --stroke-width: 6;
+  --stroke-width-guide: 1;
+  --stroke-width-order: 12px;
+}
+
+/* ============ Base Styles ============ */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-primary);
+}
+
+body {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* ============ Typography ============ */
+h1 {
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ============ Character Grid ============ */
+#character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--char-btn-size), 1fr));
+  gap: var(--spacing-sm);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.char-button {
+  padding: var(--spacing-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  text-align: center;
+  cursor: pointer;
+  background: var(--bg-white);
+  user-select: none;
+  font-size: 18px;
+  transition: background-color 150ms ease;
+}
+
+.char-button:hover {
+  background: var(--bg-hover);
+}
+
+.char-button:active {
+  background: var(--muted);
+}
+
+/* ============ SVG Container & Canvas ============ */
+#svg-container {
+  width: var(--box-size);
+  height: var(--box-size);
+  border: 1px solid var(--border-light);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background: var(--bg-white);
+  margin: 0 auto;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+#stroke-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#draw-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+#draw-canvas:not([data-active]) {
+  cursor: auto;
+}
+
+/* ============ Controls ============ */
+.controls {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#controls {
+  gap: var(--spacing-md);
+}
+
+#toolbar {
+  gap: 10px;
+  justify-content: center;
+}
+
+#draw-tools {
+  gap: var(--spacing-sm);
+  justify-content: center;
+}
+
+/* ============ Button Styling ============ */
+button {
+  padding: var(--spacing-sm) var(--spacing-sm);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border);
+  background: var(--bg-white);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 150ms ease;
+  color: var(--text-primary);
+}
+
+button:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+}
+
+button:active {
+  background: var(--muted);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#toolbar button,
+#draw-tools button {
+  padding: var(--spacing-xs) 10px;
+  font-size: 13px;
+}
+
+/* ============ Labels & Inputs ============ */
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+input[type="color"] {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="range"] {
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+select {
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-white);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#pen-size {
+  vertical-align: middle;
+  min-width: 100px;
+}
+
+#current-info {
+  margin-left: var(--spacing-sm);
+  font-weight: 600;
+  color: var(--accent);
+  min-width: 120px;
+}
+
+/* ============ Feedback Message ============ */
+#flash-message {
+  position: fixed;
+  right: var(--spacing-lg);
+  top: var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-sm);
+  background: var(--feedback-info);
+  color: var(--bg-white);
+  border-radius: var(--border-radius);
+  display: none;
+  z-index: 999;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-weight: 500;
+}
+
+#flash-message.show {
+  display: block;
+  animation: slideIn 150ms ease forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============ SVG Stroke Styles ============ */
+.stroke-path {
+  stroke: var(--stroke-dark);
+  stroke-width: var(--stroke-width);
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.95;
+  transition: stroke-dashoffset 200ms ease, opacity 150ms ease;
+}
+
+.stroke-drawn {
+  opacity: 1;
+}
+
+/* ============ Guidelines ============ */
+.guide-line {
+  stroke: var(--guide-primary);
+  stroke-width: var(--stroke-width-guide);
+  stroke-dasharray: 2 4;
+  opacity: 0.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.guide-shape {
+  stroke: var(--guide-secondary);
+  fill: none;
+  opacity: 0.8;
+}
+
+/* ============ SVG Text Elements ============ */
+.order-number {
+  font-size: var(--stroke-width-order);
+  fill: var(--accent);
+  opacity: 0.85;
+  font-weight: 700;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+/* ============ Responsive Design ============ */
+@media (max-width: 768px) {
+  body {
+    padding: var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  .controls {
+    gap: var(--spacing-xs);
+  }
+
+  button {
+    padding: var(--spacing-xs) 8px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: var(--spacing-md);
+  }
+
+  #svg-container {
+    width: var(--box-size-sm);
+    height: var(--box-size-sm);
+  }
+
+  h1 {
+    font-size: 16px;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  #character-grid {
+    grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+    gap: var(--spacing-xs);
+  }
+
+  .char-button {
+    padding: 6px;
+    font-size: 16px;
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  label {
+    font-size: 13px;
+  }
+
+  button {
+    padding: var(--spacing-xs) 8px;
+    font-size: 12px;
+    width: 100%;
+  }
+}
